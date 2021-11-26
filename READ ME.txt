@@ -1,0 +1,14 @@
+-keep files in the same folder after decompression because there are subroutines for the main file
+-main file is DiLavore_Ver3_202374YAFM.m
+-To have a nice command window output, keep the command window width at least a bit more than half screen
+
+-2 plots appear: 
+	figure (2) contains a representation of the infinitesimal cube. 
+		2 arrows starts from the center of each of the positive normal planes faces:
+			the orthogonal arrow is the component sigma(i,i)
+			the non-orthogonal arrow is the sigma(:,i) (i.e. the vector sum of the sigma ij components of that face)
+		1 arrow start from the centre of the cube, it is the maximum shear vector, on a 45° plane with respect to self-base
+	
+	figure (1) contains 6 arrows: there are 2 tripletes of vectors, each of those is a ortho-normal basis. 
+		the rotated one is the self-base, holding sigma in its diagonal (eigen-valued) expression
+		the "axis oriented" base is the one holding the sigma in its original expression
