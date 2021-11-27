@@ -1,0 +1,342 @@
+\documentclass[a4paper,11pt]{article}
+\usepackage{amsmath}
+\usepackage{physics}
+\usepackage {graphicx}
+\usepackage{geometry}
+\usepackage{listings}
+\usepackage{verbatim}
+\usepackage{alltt}
+\geometry{left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm}
+	\begin{document}
+\title{Continuum mechanics Homework 2}
+\author{Enrico Di Lavore}
+\date{27 November 2021}
+\maketitle
+
+Are given the equation of motion by the linear mapping $\chi (\mathbf(X))$
+\[ \mathbf{x}=\chi(\mathbf{X})=(a X_1+b X_2+ c X_3) \mathbf{e_1}+
+(d X_1+e X_2+ f X_3) \mathbf{e_2}+
+(gX_1+h X_2+ l X_3) \mathbf{e_3}  \]
+and its coefficients a=-1; b=1; c=0; d=3; e=3; f=0; g=0; h=0; l=1; (Version n.3)\\
+It is also given the stress tensor $\mathbf{T}$ [MPa]
+\[\mathbf{T}= \begin{pmatrix}
+   140 &  160 &  300\\
+   160  & 300 &  460\\
+   300  & 460  & 600 \end{pmatrix} \]
+
+	\section{Ex 1: Deformation gradient \textbf{F} tensor}
+We explicit the deformation gradient tensor  $\mathbf{F}$ 
+
+\[ \mathbf{F}=F(i,j)=\pdv{x_i}{X_j}= \begin{pmatrix}
+\alpha    &  \beta          &     \kappa \\
+ \beta    &  \alpha+\beta    &  \beta+\kappa \\
+ \kappa  &   \beta+\kappa  & \alpha+\beta+\kappa \end{pmatrix}= \begin{pmatrix}
+    -1 &    1  &   0\\
+     3  &   3   &  0\\
+     0  &   0    & 1 \end{pmatrix}\]
+     
+     \section{Ex 2: $2^{nd}$ Piola-Kirchhoff stress tensor $\mathbf{S}$}
+We can compute the $2^{nd}$ Piola-Kirchhoff stress tensor $\mathbf{S}$ by
+\[ \mathbf{S}= \mathbf{F^{-1}} \cdot \mathbf{T^0}=J \, \mathbf{F^{-1}} \cdot \mathbf{T} \cdot \mathbf{(F^{-1})^T}= \begin{pmatrix}
+        -100   &      160    &     440\\
+         160    &    -420    &   -1360\\
+         440    &  -1360    &   -3600\end{pmatrix}\]
+Where: \\
+$\mathbf{F^{-1}}$ is the inverse of the tensor $\mathbf{F}$
+\[ \mathbf{F^{-1}}= \begin{pmatrix}
+         -0.5    &  0.16667       &     0\\
+          0.5     & 0.16667        &    0\\
+            0      &      0          &  1  \end{pmatrix}\]
+
+$\mathbf{T^0}$ is the $1^{st}$ Piola-Kirchhoff stress tensor
+\[ \mathbf{T^0}=J \,\mathbf{T} \, \mathbf{(F^{-1})^T}= \begin{pmatrix}
+          260   &     -580   &    -1800\\
+         180     &   -780    &   -2760\\
+         440     &  -1360    &   -3600  \end{pmatrix}\]
+         
+\section{Ex 3: Compute von Mises stress for the tensor $\mathbf{T}$}
+As first we compute the trace of the $2^{nd}$ order tensor $\mathbf{T}$ as the sum of its eigen-values:
+\[  tr(\mathbf{T})=\sum_{i=1}^{3} \lambda_i=1057+41-58=1040 \]
+Then we compute the hydrostatic $\mathbf{T}_{hyd}$ and deviatoric $\mathbf{T}_{dev}$ components of $\mathbf{T}$ as:
+\[  T_{hyd}(i,j)=  \frac {tr(\mathbf{T}) \delta_{ij}}{3}= \begin{pmatrix}
+       346.67      &      0     &       0\\
+            0     &  346.67     &       0\\
+            0       &     0   &    346.67 \end{pmatrix}  \]
+And we compute the deviatoric component by:
+\[ \mathbf{T}_{dev}= \mathbf{T}-\mathbf{T}_{hyd} = \begin{pmatrix}
+      -206.67    &      160      &    300\\
+          160    &  -46.667    &      460\\
+          300     &     460  &     253.33 \end{pmatrix}  \]
+          
+Then it follows the computation of von Mises stress : 
+\[ \sigma_{vM}=\sqrt{1.5 \, \mathbf{T}_{dev} : \mathbf{T}_{dev} }=\sqrt{1.5 \, \sum_{i,j=1}^{3} [T_{dev}(i,j)]^2 } \Rightarrow\] 
+$ \; \Rightarrow \; \sigma_{vM}=1070.1$ [MPa]
+
+\section{Ex 4: Compute strain tensor $\mathbf{\epsilon}$ }
+We are given the value of Young modulus $E=70$[GPa] and the Poisson coefficient $\nu=0.3$. \\
+We can compute the strain tensor $\mathbf{\epsilon}$ by
+\[  \epsilon(i,j)=\frac{1}{E}[(1+\nu) \, \sigma_{ij}-\nu \, \delta_{ij} \, \sigma_{kk}] \; \Rightarrow \;  \mathbf{\epsilon}=\frac{1}{E}[(1+\nu ) \mathbf{T}-\nu \, \mathbf{I} \, tr(\mathbf{T})]\]
+\[ \mathbf{\epsilon}= \begin{pmatrix}
+      -1.8571    &   2.9714  &     5.5714\\
+       2.9714    &   1.1143   &    8.5429\\
+       5.5714    &   8.5429   &    6.6857 \end{pmatrix}\]
+And we can decompose $\mathbf{\epsilon}$ in its hydrostatic and deviatoric components:
+
+\[  \epsilon_{hyd}(i,j)=  \frac{tr(\mathbf{\epsilon}) \delta_{ij}}{3}= \begin{pmatrix}
+         1.981      &      0      &      0\\
+            0     &   1.981       &     0\\
+            0       &     0    &    1.981 \end{pmatrix}  \]
+\[ \mathbf{\epsilon}_{dev}=\mathbf{\epsilon}-\mathbf{\epsilon}_{hyd} = \begin{pmatrix}
+       -3.8381   &    2.9714   &    5.5714\\
+       2.9714   &  -0.86667   &    8.5429\\
+       5.5714   &    8.5429   &    4.7048  \end{pmatrix}  \]
+
+\subsection{Show that it holds the relation $T_{dev}(i,j)=2 \, G \, \epsilon_{dev}(i,j)$ }
+We compute the shear modulus in function of Young modulus and Poisson coefficient\\ $G=\frac{E}{2\,(1+\nu)}=26.92$[GPa]\\
+We verify the given relation by computing $T_{dev}-2 \, G \, \epsilon_{dev}$ and we see that we get a zero matrix.\\
+Indeed the following terms are equal:
+\[ \mathbf{T}_{dev}= \begin{pmatrix}
+      -206.67    &      160      &    300\\
+          160    &  -46.667    &      460\\
+          300     &     460  &     253.33 \end{pmatrix}  \]
+\[ 2 \, G \, \epsilon_{dev} = \begin{pmatrix}
+      -206.67    &      160  &        300\\
+          160      &-46.667    &      460\\
+          300       &   460      &  253.33 \end{pmatrix}  \]
+ 
+\section{Stiffness tensor computation and component explicitation}
+We compute the tensor $\mathbf{C}$ by the expression:
+\[ C(i,j,k,l)=\frac{E}{1+\nu}[0.5(\delta_{ik} \, \delta_{jl}+\delta_{jk} \, \delta_{il})+
+\frac{\nu}{1-2\, \nu}\delta_{ij} \, \delta_{kl}]  \]
+In particular, the ''slice'' of $4^{th}$ order tensor \textbf{C} that we are looking for is 
+\[ C(:,:,2,3) = \begin{pmatrix}
+            0     &       0     &       0\\
+            0      &      0      & 26.923\\
+            0      & 26.923     &       0 \end{pmatrix} \]
+            
+In particular $ C(2,3,2,3)=26.923$
+\newpage
+
+ 
+	 \section{Appendix: Cmd Window and Script}
+ 
+ \subsection{Results from Matlab command window:}
+ \begin{verbatim}
+
+T =
+   140   160   300
+   160   300   460
+   300   460   600
+Ex1: compute deformation gradient tensor
+F =
+    -1     1     0
+     3     3     0
+     0     0     1
+--------------------------------------------------------------------------
+Ex2:
+invF =
+         -0.5      0.16667            0
+          0.5      0.16667            0
+            0            0            1
+J =
+    -6
+------------------------
+First PK stress tensor
+T0 =
+         260        -580       -1800
+         180        -780       -2760
+         440       -1360       -3600
+Second PK stress tensor
+S =
+        -100         160         440
+         160        -420       -1360
+         440       -1360       -3600
+--------------------------------------------------------------------------
+Ex3:Von Mises stress computation
+eigvec =
+       0.4743      0.80989      0.34514
+      0.60606     -0.58473      0.53924
+     -0.63854     0.046586      0.76818
+eigval =
+      -59.437            0            0
+            0       41.739            0
+            0            0       1057.7
+trT =
+        1040
+T_hyd =
+       346.67            0            0
+            0       346.67            0
+            0            0       346.67
+T_dev =
+      -206.67          160          300
+          160      -46.667          460
+          300          460       253.33
+sigma_vm =
+       1070.1
+--------------------------------------------------------------------------
+Ex4: Strain tensor Epsilon computation by Hooke's law
+E =
+    70
+nu =
+          0.3
+Eps =
+      -1.8571       2.9714       5.5714
+       2.9714       1.1143       8.5429
+       5.5714       8.5429       6.6857
+Show the relation between deviators Tˆ_ij = 2 G Epsˆ_ij
+T_dev =
+      -206.67          160          300
+          160      -46.667          460
+          300          460       253.33
+Eps_hyd =
+        1.981            0            0
+            0        1.981            0
+            0            0        1.981
+Eps_dev =
+      -3.8381       2.9714       5.5714
+       2.9714     -0.86667       8.5429
+       5.5714       8.5429       4.7048
+G =
+       26.923
+2 G Eps_dev=
+ans =
+      -206.67          160          300
+          160      -46.667          460
+          300          460       253.33
+TestVar =
+     0
+The relation between deviators is verified
+--------------------------------------------------------------------------
+Ex5: Stiffness tensor computation
+C(:,:,1,1) =
+       94.231            0            0
+            0       40.385            0
+            0            0       40.385
+C(:,:,2,1) =
+            0       26.923            0
+       26.923            0            0
+            0            0            0
+C(:,:,3,1) =
+            0            0       26.923
+            0            0            0
+       26.923            0            0
+C(:,:,1,2) =
+            0       26.923            0
+       26.923            0            0
+            0            0            0
+C(:,:,2,2) =
+       40.385            0            0
+            0       94.231            0
+            0            0       40.385
+C(:,:,3,2) =
+            0            0            0
+            0            0       26.923
+            0       26.923            0
+C(:,:,1,3) =
+            0            0       26.923
+            0            0            0
+       26.923            0            0
+C(:,:,2,3) =
+            0            0            0
+            0            0       26.923
+            0       26.923            0
+C(:,:,3,3) =
+       40.385            0            0
+            0       40.385            0
+            0            0       94.231
+--------------------------------------------------------------------------
+C(2,3,2,3) is equal to
+ans =
+       26.923
+--------------------------------------------------------------------------
+Hello World
+
+\end{verbatim}
+
+\newpage
+
+\subsection{Matlab script:}
+\begin{verbatim}
+clc; clear all; %ver3
+format shortG %cut decimals as needed
+format compact %cmd window compact out
+%axis equal
+a=-1; b=1; c=0; d=3; e=3; f=0; g=0; h=0; l=1; 
+aa=140; bb=160; kk=300; %alpha,beta,kappa
+dash="--------------------------------------------------------------------------";
+T=[aa bb kk ; bb aa+bb bb+kk ; kk bb+kk aa+bb+kk]
+disp("Ex1: compute deformation gradient tensor")
+F=[ a b c; d e f ; g h l]
+disp(dash)
+disp("Ex2:")%ex2:compute 2nd piola-kirchhoff stress tensor S
+invF=inv(F)
+J=det(F)
+disp("------------------------")
+disp("First PK stress tensor")
+T0=J * T * invF' %first piola-kirch stress tens
+disp("Second PK stress tensor")
+S=invF *T0 %second p-k 
+
+disp(dash) %ex3 Von Mises
+disp('Ex3:Von Mises stress computation')
+[eigvec,eigval]=eig(T)
+trT=trace(T)
+T_hyd=zeros(3,3);
+for i=1:3
+T_hyd(i,i)=trT/3;
+end
+T_hyd
+T_dev=T-T_hyd
+
+temp=0;
+for i=1:3 %computation of sigma prime
+    for j=1:3
+        temp=temp+T_dev(i,j)^2;
+    end
+end
+sigma_vm=(3/2*temp)^0.5
+
+disp(dash) %ex4 
+disp("Ex4: Strain tensor Epsilon computation by Hooke's law")
+E=70 %[GPa]
+nu=0.3
+Eps=[(1+nu)*T-nu*eye(3)*trT]/E
+disp("Show the relation between deviators Tˆ_ij = 2 G Epsˆ_ij")
+T_dev
+for i=1:3
+Eps_hyd(i,i)=trace(Eps)/3;
+end
+Eps_hyd
+Eps_dev=Eps-Eps_hyd
+G=E/2/(1+nu)
+disp("2 G Eps_dev=")
+2*G*Eps_dev
+TestVar=det(T_dev-2*G*Eps_dev)
+if TestVar<10^(-9)
+   disp("The relation between deviators is verified")
+end
+
+disp(dash) %ex5
+disp("Ex5: Stiffness tensor computation")
+
+%ijkq=2323
+I=eye(3);
+for i=1:3
+    for j=1:3
+        for k=1:3
+            for q=1:3
+C(i,j,k,q)=E/(1+nu)*(0.5*( I(i,k)*I(j,q)+I(j,k)*I(i,q))+(nu/(1-2*nu)*I(i,j)*I(k,q)));
+            end
+        end
+    end
+end
+C
+disp(dash)
+disp("C(2,3,2,3) is equal to")
+C(2,3,2,3)
+disp(dash)
+disp("Hello World")
+
+\end{verbatim}
+
+\end{document}
